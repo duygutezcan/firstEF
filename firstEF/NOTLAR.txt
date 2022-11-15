@@ -1,0 +1,39 @@
+﻿1-
+önce nuget paketler yüklenir:
+
+MİCROSOFT.ENTİTY.FRAMEWORKCORE
+MİCROSOFT.ENTİTY.FRAMEWORKCORE.SQLSERVER
+MİCROSOFT.ENTİTY.FRAMEWORKCORE.TOOLS
+
+2-
+Context Folder altında Context Class yaratılır ve DbContext den miras alır.
+Context Class ı altında Constructor yaratılır:
+
+ public PerContext(DbContextOptions<PerContext> db):base(db)  
+        {
+            
+        }
+3-
+App.Jason dosyasına ConnectionString parametresi yazılır:(microsoft un sitesinden copy paste yap)
+
+ "PersonelDatabase": "Server=DESKTOP-4GKM6HK\\SQLEXPRESS;Database=PersonelDB2;Trusted_Connection=True;"
+
+ PersonelDatabase: özelliği
+ Server :parametreleri
+ Database : parametreleri değiştirilir
+
+ 4-
+ Program.cs ye Services parametreleri eklenir:
+
+ builder.Services.AddDbContext<PerContext>(options =>
+     options.UseSqlServer(builder.Configuration.GetConnectionString("PersonelDatabase")));
+
+ AddDbContext<PerContext> parametresi 2.adımla aynı olmalıdır.
+ GetConnectionString("") parametresi 3.adımla aynı olmalıdır.
+
+ 5-
+ Migration yapılmalı(veri tabanı ile projeyi sync eder.(senkronize))
+ a- Add-Migration  isim   ( class lardaki ve context deki değişiklikleri kayıt eder. )
+ tools- nuget console - Add-Migration ilk   yaz enter
+ b- Update-Database   (değişiklikleri uygular.)
+ c- gerekli ise a adımına git.
